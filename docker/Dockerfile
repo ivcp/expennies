@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm
 
 ARG USER
 ARG USER_ID
@@ -32,5 +32,6 @@ RUN useradd -ms /bin/bash --no-user-group -g $GROUP_ID -u 1337 $USER
 RUN usermod -u $USER_ID $USER
 
 RUN chmod -R 777 ./
+
 
 USER $USER
