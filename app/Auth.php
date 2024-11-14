@@ -8,6 +8,8 @@ use App\Contracts\AuthInterface;
 use App\Contracts\SessionInterface;
 use App\Contracts\UserInterface;
 use App\Contracts\UserProviderServiceInterface;
+use App\DataObjects\RegisterUserData;
+use App\Entity\User;
 
 class Auth implements AuthInterface
 {
@@ -54,13 +56,17 @@ class Auth implements AuthInterface
             return false;
         }
 
+        $this->logIn($user);
+        return true;
+    }
+
+    public function logIn(UserInterface $user): void
+    {
         $this->session->regenerate();
 
         $this->session->put('user', $user->getId());
 
-
         $this->user = $user;
-        return true;
     }
 
     public function checkCredentials(UserInterface $user, array $credentials): bool
@@ -73,5 +79,14 @@ class Auth implements AuthInterface
         $this->session->forget('user');
         $this->session->regenerate();
         $this->user = null;
+    }
+
+    public function register(RegisterUserData $data): UserInterface
+    {
+        $user = $this->userProvider->createUser($data);
+
+        $this->logIn($user);
+
+        return $user;
     }
 }
