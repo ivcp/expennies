@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\HasTimestamps;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,9 +18,12 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
+
 #[Entity, Table('transactions')]
+
 class Transaction
 {
+
 
     #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
@@ -53,6 +57,7 @@ class Transaction
     {
         return $this->id;
     }
+
 
     public function getDescription(): string
     {
